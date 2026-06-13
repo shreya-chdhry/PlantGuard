@@ -1,5 +1,3 @@
-Yeh raha tumhara updated MIT License. Ise copy karke LICENSE.txt file mein save kar lo, ab yeh pura project tumhara hai:
-
 MIT License
 
 Copyright (c) 2026 Shreya Chaudhary
