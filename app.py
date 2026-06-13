@@ -3,6 +3,7 @@ import tensorflow as tf
 import numpy as np
 import time
 import warnings
+import os
 from tensorflow.keras.utils import img_to_array, load_img
 from src.disease_information import plant_disease_dict, model_mapping_dict
 
@@ -32,17 +33,23 @@ def display_plant_disease_dictrmation(result, plant_type):
 
 def select_model(plant_type):
     model_mapping = model_mapping_dict
-    model_path = "models/" + model_mapping[plant_type]['model_path']
+    # FIX: Absolute path use karo taaki server pe file mile
+    base_dir = os.path.dirname(os.path.abspath(__file__))
+    model_path = os.path.join(base_dir, "models", model_mapping[plant_type]['model_path'])
     classes = model_mapping[plant_type]['classes']
     return classes, model_path
 
 def predict_disease(uploaded_image, plant_type):
     classes, model_path = select_model(plant_type)
     
-    # Model load fix: compile=False se deserialization error ruk jayega
+    # DEBUG: Check karo file exist karti hai ya nahi
+    if not os.path.exists(model_path):
+        st.error(f"Error: Model file not found at {model_path}")
+        return
+
+    # LOAD: compile=False aur h5 format ke liye standard loading
     model = tf.keras.models.load_model(model_path, compile=False)
     
-    # Import fix: load_img aur img_to_array ab tensorflow.keras.utils se aayenge
     loaded_image = load_img(uploaded_image, target_size=(256, 256))
     image_arr = img_to_array(loaded_image)
     image = np.expand_dims(image_arr, axis=0)
