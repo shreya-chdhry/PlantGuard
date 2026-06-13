@@ -5,6 +5,8 @@ import time
 import warnings
 import os
 from tensorflow.keras.utils import img_to_array, load_img
+from keras.models import Sequential
+from keras.layers import Conv2D, MaxPooling2D, Flatten, Dense
 from src.disease_information import plant_disease_dict, model_mapping_dict
 
 warnings.filterwarnings("ignore")
@@ -45,8 +47,19 @@ def predict_disease(uploaded_image, plant_type):
         st.error(f"Error: Model file not found at {model_path}")
         return
 
-    # Ab file saaf hai, load ho jayegi
-    model = tf.keras.models.load_model(model_path, compile=False)
+    # Structure Define karo
+    model = Sequential([
+        Conv2D(64, (3, 3), activation='relu', input_shape=(256, 256, 3)),
+        MaxPooling2D(2, 2),
+        Conv2D(64, (3, 3), activation='relu'),
+        MaxPooling2D(2, 2),
+        Flatten(),
+        Dense(64, activation='relu'),
+        Dense(len(classes), activation='softmax')
+    ])
+    
+    # Sirf weights load karo - Serialization error ko bypass karne ka tarika
+    model.load_weights(model_path)
     
     loaded_image = load_img(uploaded_image, target_size=(256, 256))
     image_arr = img_to_array(loaded_image)
