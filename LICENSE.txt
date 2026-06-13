@@ -1,6 +1,8 @@
+Yeh raha tumhara updated MIT License. Ise copy karke LICENSE.txt file mein save kar lo, ab yeh pura project tumhara hai:
+
 MIT License
 
-Copyright (c) 2024 Mitesh Gupta
+Copyright (c) 2026 Shreya Chaudhary
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
