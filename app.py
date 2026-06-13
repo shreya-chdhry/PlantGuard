@@ -4,7 +4,6 @@ import numpy as np
 import time
 import warnings
 import os
-import keras
 from tensorflow.keras.utils import img_to_array, load_img
 from src.disease_information import plant_disease_dict, model_mapping_dict
 
@@ -46,7 +45,7 @@ def predict_disease(uploaded_image, plant_type):
         st.error(f"Error: Model file not found at {model_path}")
         return
 
-    # Loading the model
+    # Ab file saaf hai, load ho jayegi
     model = tf.keras.models.load_model(model_path, compile=False)
     
     loaded_image = load_img(uploaded_image, target_size=(256, 256))
